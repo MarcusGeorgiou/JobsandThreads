@@ -11,6 +11,10 @@ public class BasicGOSpawner : MonoBehaviour
     private float targetFrameRate = 60f;
     private Vector3 spawnLocation;
 
+    [Header("Just know this is important")]
+    public bool usingJobs;
+    public CubeJobHandler jobHandler;
+
     private void Start()
     {
         spawnLocation = transform.position;
@@ -21,10 +25,13 @@ public class BasicGOSpawner : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(prefab,spawnLocation, Quaternion.identity);
+            GameObject cube = Instantiate(prefab,spawnLocation, Quaternion.identity);
             spawnLocation += Vector3.right;
             cubesSpawned++;
-
+            
+            
+            if(usingJobs)
+                jobHandler.AddCube(cube);
             yield return new WaitForSeconds(spawnTimer);
         }
     }
